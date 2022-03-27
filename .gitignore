@@ -1,0 +1,4 @@
+**/*.pth
+**/*.jpg
+**/*.json
+objectdetection/train_coco.json
