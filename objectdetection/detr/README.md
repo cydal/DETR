@@ -1,8 +1,5 @@
 **DE⫶TR**: End-to-End Object Detection with Transformers
 ========
-
-[![Support Ukraine](https://img.shields.io/badge/Support-Ukraine-FFD500?style=flat&labelColor=005BBB)](https://opensource.fb.com/support-ukraine)
-
 PyTorch training code and pretrained models for **DETR** (**DE**tection **TR**ansformer).
 We replace the full complex hand-crafted object detection pipeline with a Transformer, and match Faster R-CNN with a ResNet-50, obtaining **42 AP** on COCO using half the computation power (FLOPs) and the same number of parameters. Inference in 50 lines of PyTorch.
 
@@ -91,7 +88,7 @@ COCO val5k evaluation results can be found in this [gist](https://gist.github.co
 The models are also available via torch hub,
 to load DETR R50 with pretrained weights simply do:
 ```python
-model = torch.hub.load('facebookresearch/detr:main', 'detr_resnet50', pretrained=True)
+model = torch.hub.load('facebookresearch/detr', 'detr_resnet50', pretrained=True)
 ```
 
 
