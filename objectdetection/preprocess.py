@@ -50,7 +50,12 @@ def get_contour(thresh, h, w, b, s, c, i, f, n, a, invert=False):
     boxes = []
     segmentation = []
 
-    for cnt in contours:
+    for i, cnt in enumerate(contours):
+
+        if not invert:
+            if i != len(contours) - 1:
+                continue
+
         x, y, w, h = cv2.boundingRect(cnt) # [[23, 23, 33, 44]]
         boxes.append([x, y, w, h])
 
@@ -65,8 +70,8 @@ def get_contour(thresh, h, w, b, s, c, i, f, n, a, invert=False):
     b.append(boxes)
     s.append(segmentation)
 
-image_files = glob2.glob('dataset/images/*.jpg')
-mask_files = glob2.glob('dataset/masks/*.jpg')
+image_files = glob2.glob('/root/Documents/capstone/dataset/images/*.jpg')
+mask_files = glob2.glob('/root/Documents/capstone/dataset/masks/*.jpg')
 
 labs = ['rebar', 'spall', 'crack']
 
@@ -92,7 +97,7 @@ def preprocess():
 
     j = 0
     for i in range(len(fileids)):
-        image = "dataset/masks/" + anno_files[i]
+        image = "/root/Documents/capstone/dataset/masks/" + anno_files[i]
 
         
         src = cv2.imread(image, 0)
@@ -138,10 +143,10 @@ def preprocess():
     train_files, val_files = allfiles[:split], allfiles[split:]
 
     for eachimage in train_files:
-        shutil.copy("dataset/images/" + eachimage, 'train/')
+        shutil.copy("/root/Documents/capstone/dataset/images/" + eachimage, 'train/')
 
     for eachimage in val_files:
-        shutil.copy("dataset/images/" + eachimage, 'val/')
+        shutil.copy("/root/Documents/capstone/dataset/images/" + eachimage, 'val/')
 
 
     train_df = merged_df[merged_df['filename'].isin(train_files)]

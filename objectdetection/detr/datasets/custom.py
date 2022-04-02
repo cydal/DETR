@@ -11,8 +11,8 @@ def build(image_set, args):
     root = Path(args.coco_path)
     assert root.exists(), f'provided path {root} to custom dataset does not exist'
     PATHS = {
-        "train": ("/home/cydal/Documents/others/tempfolder/train", "/home/cydal/Documents/others/tempfolder/train_coco.json"),
-        "val": ("/home/cydal/Documents/others/tempfolder/val", "/home/cydal/Documents/others/tempfolder/val_coco.json"),
+        "train": ("/root/Documents/capstone/DETR/objectdetection/train", "/root/Documents/capstone/DETR/objectdetection/train_coco.json"),
+        "val": ("/root/Documents/capstone/DETR/objectdetection/val", "/root/Documents/capstone/DETR/objectdetection/val_coco.json"),
     }
 
     img_folder, ann_file = PATHS[image_set]
