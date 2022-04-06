@@ -1,7 +1,5 @@
-#from torchvision.ops import masks_to_boxes
-#from torchvision.io import read_image
 import torch
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 import cv2
 import os
 
@@ -30,6 +28,64 @@ def get_label(name):
 
   return(lab)
 
+
+def build_groundval(val_ind, val_merged):
+
+  val_library = {}
+
+  for ind in val_ind:
+
+    val_merged_subset = val_merged[val_merged.filename == ind]
+
+    labels = val_merged_subset['class'].tolist()
+    boxes = val_merged_subset.apply(lambda x: [x['xmin'], x['ymin'], 
+                                              x['xmax'], x['ymax']], axis=1).tolist()
+
+    if ind in val_library.keys():
+      val_library[ind]["ground_truth"]["boxes"].extend(boxes)
+      val_library[ind]["ground_truth"]["labels"].extend(labels)
+
+    else:
+      val_library[ind] = {"ground_truth": {"boxes": [], "labels": []}}
+
+      val_library[ind]["ground_truth"]["boxes"].extend(boxes)
+      val_library[ind]["ground_truth"]["labels"].extend(labels)
+
+  return(val_library)
+
+
+def build_ground_truth(val_ind, val_library):
+    for ind in val_ind:
+
+        fileinfo = val_library[ind]['ground_truth']
+
+
+        path = f"val/{ind}"
+        im = Image.open(path).convert('RGB')
+
+        draw = ImageDraw.Draw(im)
+        font = ImageFont.load_default()
+
+        labels = ['None', 'rebar', 'spall', 'crack']
+        colors = ['blue', 'red', 'black', 'white']
+
+        idx2label = {v: k for v, k in enumerate(labels)}
+        label2idx = {k: v for v, k in enumerate(labels)}
+
+        for i, box in enumerate(fileinfo['boxes']):
+            label = fileinfo['labels'][i]
+
+            if label == "None":
+                continue
+
+            draw.rectangle([box[0], box[1], box[0]+box[2], box[1]+box[3]], outline=colors[label2idx[label]], width=3)
+            draw.text((box[0] + 20, box[1] + 20), label, 
+                        font=font, fill=colors[label2idx[label]])
+            
+            im.save(f"groundviz/{ind}")
+
+
+
 def get_contour(thresh, h, w, b, s, c, i, f, n, a, invert=False):
     if invert:
         thresh = np.invert(thresh)
@@ -52,15 +108,15 @@ def get_contour(thresh, h, w, b, s, c, i, f, n, a, invert=False):
 
     for i, cnt in enumerate(contours):
 
-        if not invert:
+        if invert:
             if i != len(contours) - 1:
                 continue
 
-        x, y, w, h = cv2.boundingRect(cnt) # [[23, 23, 33, 44]]
+        x, y, w, h = cv2.boundingRect(cnt) 
         boxes.append([x, y, w, h])
 
         coords = []
-        for point in cnt: # [x, y, x, y, x, y]
+        for point in cnt: 
             coords.append(int(point[0][0]))
             coords.append(int(point[0][1]))
 
@@ -149,11 +205,27 @@ def preprocess():
         shutil.copy("/root/Documents/capstone/dataset/images/" + eachimage, 'val/')
 
 
+    files_100 = glob2.glob('val/*.jpg')[:100]
+
+    for eachimage in files_100:
+        shutil.copy("/root/Documents/capstone/DETR/objectdetection/" + eachimage, '100/')
+
+
     train_df = merged_df[merged_df['filename'].isin(train_files)]
     val_df = merged_df[merged_df['filename'].isin(val_files)]
 
     make_coco('train_coco.json', train_df)
     make_coco('val_coco.json', val_df)
+    
+
+    val_files = [x.split('/')[-1] for x in glob2.glob('100/*.jpg')]
+    val_merged = merged_df[merged_df.filename.isin(val_files)][['filename', 'class', "xmin",	"ymin",	"xmax",	"ymax"]]
+    val_ind = val_merged['filename'].value_counts().index
+
+    val_library = build_groundval(val_ind, val_merged)
+
+    build_ground_truth(val_ind, val_library)
+
 
 if __name__ == '__main__':
     preprocess()
