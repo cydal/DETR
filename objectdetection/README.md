@@ -175,5 +175,10 @@ Reference:
 https://stackoverflow.com/questions/62545034/how-to-convert-a-csv-table-into-coco-format-in-python
 
 
+## Validation Loss Visualization
+[![image.png](https://i.postimg.cc/L4JHT9Ty/image.png)](https://postimg.cc/QVrGNrv5)
+[![image.png](https://i.postimg.cc/1tYjXZVX/image.png)](https://postimg.cc/ftmKqpKQ)
+[![image.png](https://i.postimg.cc/ZYXJsGsJ/image.png)](https://postimg.cc/JtcwG2WF)
+
 ## Original |      Ground Truth |            BBox Prediction
 ![Image Grid](https://github.com/cydal/DETR/blob/main/objectdetection/grid.png)
