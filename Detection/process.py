@@ -2,24 +2,21 @@ import os
 import cv2
 import json
 import click
-import torch
 import pylab
-#import scipy
 import glob2
 import shutil
 import numpy as np
 import pandas as pd
 from helper import *
-#import skimage.io as io
 from panopticapi import utils
 import matplotlib.pyplot as plt
 from pycocotools.coco import COCO
-from torchvision.io import read_image
 from pycocotools import mask as mask_util
-from torchvision.ops import masks_to_boxes
 from PIL import Image, ImageDraw, ImageFont
 from pycocotools import _mask as _mask_util
 from sklearn.model_selection import train_test_split
+
+
 
 
 @click.command()
@@ -200,6 +197,23 @@ def preprocess(mask_path, data_path, panoptic_path, detection_path):
 
         json.dump(data_coco, open(save_json_path, "w"), indent=4)
 
+    print("Begin Ground/Prediction Operation")
+    files_100 = glob2.glob('val/*.jpg')[:100]
+    for eachimage in files_100:
+        shutil.copy(eachimage, '100/')
+
+    print("Copy to 100")
+
+    val_files = [x.split('/')[-1] for x in glob2.glob('100/*.jpg')]
+    print(len(val_files))
+
+    val_merged = capstone_df[capstone_df.filename.isin(val_files)][['filename', 'class', "xmin", "ymin", "xmax", "ymax"]]
+    print(val_merged.shape)
+
+    val_ind = val_df['filename'].value_counts().index
+    val_library = build_groundval(val_ind, val_df)
+
+    build_ground_truth(val_ind, val_library)
 
 
 if __name__ == '__main__':

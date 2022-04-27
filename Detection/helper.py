@@ -1,7 +1,7 @@
 import os
 import cv2
 import numpy as np
-
+from PIL import Image, ImageDraw, ImageFont
 
 
 labs = ['rebar', 'spall', 'crack']
@@ -102,3 +102,60 @@ def annotation(row):
     annotation["category_id"] = row.categoryid
     annotation["id"] = row.annid
     return annotation
+
+
+
+def build_groundval(val_ind, val_merged):
+
+  val_library = {}
+
+  for ind in val_ind:
+
+    val_merged_subset = val_merged[val_merged.filename == ind]
+
+    labels = val_merged_subset['class'].tolist()
+    boxes = val_merged_subset.apply(lambda x: [x['xmin'], x['ymin'], 
+                                              x['xmax'], x['ymax']], axis=1).tolist()
+
+    if ind in val_library.keys():
+      val_library[ind]["ground_truth"]["boxes"].extend(boxes)
+      val_library[ind]["ground_truth"]["labels"].extend(labels)
+
+    else:
+      val_library[ind] = {"ground_truth": {"boxes": [], "labels": []}}
+
+      val_library[ind]["ground_truth"]["boxes"].extend(boxes)
+      val_library[ind]["ground_truth"]["labels"].extend(labels)
+
+  return(val_library)
+
+
+def build_ground_truth(val_ind, val_library):
+    for ind in val_ind:
+
+        fileinfo = val_library[ind]['ground_truth']
+
+
+        path = f"val/{ind}"
+        im = Image.open(path).convert('RGB')
+
+        draw = ImageDraw.Draw(im)
+        font = ImageFont.load_default()
+
+        labels = ['None', 'rebar', 'spall', 'crack']
+        colors = ['blue', 'red', 'black', 'white']
+
+        idx2label = {v: k for v, k in enumerate(labels)}
+        label2idx = {k: v for v, k in enumerate(labels)}
+
+        for i, box in enumerate(fileinfo['boxes']):
+            label = fileinfo['labels'][i]
+
+            if label == "None":
+                continue
+
+            draw.rectangle([box[0], box[1], box[0]+box[2], box[1]+box[3]], outline=colors[label2idx[label]], width=3)
+            draw.text((box[0] + 20, box[1] + 20), label, 
+                        font=font, fill=colors[label2idx[label]])
+            
+            im.save(f"groundviz/{ind}")
