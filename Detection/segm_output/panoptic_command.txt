@@ -1,0 +1,166 @@
+    1  conda activate process
+    2  pip install gdown
+    3  git clone https://github.com/cydal/DETR.git
+    4  sudo apt-get update
+    5  sudo apt-get install git
+    6  git clone https://github.com/cydal/DETR.git
+    7  mkdir Data
+    8  cd Data
+    9  gdown 1UbAnTFQWShtuHlGEvYYZ4TP8tL49IM8t
+   10  sudo apt-get install unrar
+   11  sudo apt-get update
+   12  sudo apt-get install unrar
+   13  unrar
+   14  clear
+   15  unrar x -y dataset.rar .
+   16  rm dataset/images/00202.jpg
+   17  rm dataset/masks/00202rebar.jpg
+   18  cd ../
+   19  pip install git+https://github.com/cocodataset/panopticapi.git
+   20  pip install pycocotools
+   21  sudo apt update
+   22  sudo apt install make
+   23  sudo apt update
+   24  sudo apt install build-essential
+   25  sudo apt-get install manpages-dev
+   26  pip install pycocotools
+   27  cd /root/DETR
+   28  pip install click
+   29  cd Detection
+   30  ls
+   31  cclear
+   32  clear
+   33  pip install opencv-python
+   34  sudo apt-get update
+   35  sudo apt-get update && apt-get install -y python3-opencv
+   36  pip install glob2 pandas 
+   37  pip install -U scikit-learn
+   38  python process.py
+   39  rm /root/DETR/Detection/train/*
+   40  python process.py
+   41  cd ../../
+   42  git clone https://github.com/cocodataset/panopticapi.git
+   43  cd ~/DETR/Detection
+   44  python /root/panopticapi/converters/detection2panoptic_coco_format.py --input_json_file valcoco.json --output_json_file panoptic_valcoco.json
+   45  python /root/panopticapi/converters/detection2panoptic_coco_format.py --input_json_file traincoco.json --output_json_file panoptic_traincoco.json
+   46  clear
+   47  conda deactivate
+   48  conda create -n train python=3.8
+   49  conda activate train
+   50  clear
+   51  cd /root/detr
+   52  conda install -c pytorch pytorch torchvision
+   53  conda install cython scipy
+   54  pip install -U 'git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI'
+   55  pip install git+https://github.com/cocodataset/panopticapi.git
+   56  clear
+   57  pip install -r requirements.txt
+   58  clear
+   59  cd /root/DETR/Detection
+   60  cd /root/model
+   61  python
+   62  clear
+   63  cd /root/DETR/Detection
+   64  python /root/detr/main.py --coco_path . --output_dir detection_output --resume /root/models/detr-r50_no-class-head.pth
+   65  conda uninstall -c pytorch pytorch torchvision
+   66  python /root/detr/main.py --coco_path . --output_dir detection_output --resume /root/models/detr-r50_no-class-head.pth
+   67  pip install torch==1.6.0+cu101 torchvision==0.7.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html
+   68  python /root/detr/main.py --coco_path . --output_dir detection_output --resume /root/models/detr-r50_no-class-head.pth
+   69  python /root/detr/main.py --coco_path . --output_dir detection_output --resume /root/model/detr-r50_no-class-head.pth
+   70  pip uninstall torch torchvision
+   71  clear
+   72  pip install torch==1.7.1+cu110 torchvision==0.8.2+cu110 torchaudio===0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
+   73  python /root/detr/main.py --coco_path . --output_dir detection_output --resume /root/model/detr-r50_no-class-head.pth
+   74  python /root/detr/main_eval.
+   75  ls /root/DETR/Detection/detection_output -la
+   76  python /root/detr/main_eval.py --resume checkpoint.pth
+   77  pip install glob2
+   78  python /root/detr/main_eval.py --resume checkpoint.pth
+   79  pip install -U albumentations
+   80  python /root/detr/main_eval.py --resume checkpoint.pth
+   81  conda env list
+   82  conda activate process
+   83  python /root/detr/main_eval.py --resume checkpoint.pth
+   84  conda deactivate
+   85  python /root/detr/main_eval.py --resume checkpoint.pth
+   86  pip install pandas
+   87  python /root/detr/main_eval.py --resume checkpoint.pth
+   88  python /root/detr/main_eval.py --resume detection_output/checkpoint.pth
+   89  python /root/detr/main_eval.py --resume detection_output/checkpoint.pth --evaluation Detection/val 
+   90  clear
+   91  python /root/detr/main_eval.py --resume detection_output/checkpoint.pth --evaluation Detection/val 
+   92  python /root/detr/main_eval.py --resume detection_output/checkpoint.pth --evaluation val 
+   93  mkdir groundviz
+   94  mkdir pred_output
+   95  cd /root/DETR/Detection/val
+   96  find . -maxdepth 1 -type f |head -100|xargs cp -t "/root/DETR/Detection/100"
+   97  cd ../
+   98  python /root/detr/main_eval.py --resume detection_output/checkpoint.pth --evaluation val 
+   99  python /root/detr/main_eval.py --resume detection_output/checkpoint.pth --evaluation val --output_dir temp
+  100  ls
+  101  python /root/detr/main_eval.py --resume detection_output/checkpoint.pth --evaluation val --output_dir temp
+  102  clear
+  103  python preprocess.py
+  104  python process.py
+  105  conda activate process
+  106  python process.py
+  107  rm /root/DETR/Detection/100/*
+  108  python process.py
+  109  rm /root/DETR/Detection/100/*
+  110  python process.py
+  111  rm /root/DETR/Detection/train/*
+  112  rm /root/DETR/Detection/val/*
+  113  rm /root/DETR/Detection/100/*
+  114  python process.py
+  115  conda activate
+  116  conda env list
+  117  conda actvate train
+  118  conda activate train
+  119  clear
+  120  python /root/detr/main_eval.py --resume detection_output/checkpoint.pth --evaluation 100 --output_dir pred_output
+  121  cd ../
+  122  git status
+  123  git add *
+  124  git commit -m "Add Detection Ground Truth & Prediction"
+  125  git config --global user.email "cydal@outlook.com"
+  126  git config --global user.name "Sijuade Oguntayo"
+  127  git commit -m "Add Detection Ground Truth & Prediction"
+  128  git push
+  129  clear
+  130  cd Detection
+  131  mkdir segm_output
+  132  python /root/detr/main.py --masks --epochs 60 --lr_drop 15 --coco_path .  --coco_panoptic_path .  --dataset_file coco_panoptic --frozen_weights /root/DETR/Detection/detection_output/checkpoint.pth --output_dir /root/DETR/Detection/segm_output
+  133  rm /root/DETR/Detection/100/*
+  134  rm /root/DETR/Detection/groundviz/*
+  135  rm /root/DETR/Detection/pred_output/*
+  136  rm /root/DETR/Detection/train/*
+  137  rm /root/DETR/Detection/val/*
+  138  rm *.json
+  139  rm -r /root/DETR/Detection/panoptic_traincoco
+  140  rm -r /root/DETR/Detection/panoptic_valcoco
+  141  clear
+  142  python process.py
+  143  conda activate process
+  144  python process.py
+  145  conda deactivate
+  146  python /root/detr/main_eval.py --resume detection_output/checkpoint.pth --evaluation 100 --output_dir pred_output
+  147  python /root/panopticapi/converters/detection2panoptic_coco_format.py --input_json_file valcoco.json --output_json_file panoptic_valcoco.json
+  148  python /root/panopticapi/converters/detection2panoptic_coco_format.py --input_json_file traincoco.json --output_json_file panoptic_traincoco.json
+  149  clear
+  150  python /root/detr/main.py --masks --epochs 60 --lr_drop 15 --coco_path .  --coco_panoptic_path .  --dataset_file coco_panoptic --frozen_weights /root/DETR/Detection/detection_output/checkpoint.pth --output_dir /root/DETR/Detection/segm_output
+  151  clear
+  152  python /root/detr/main.py --masks --epochs 60 --lr_drop 15 --coco_path .  --coco_panoptic_path .  --dataset_file coco_panoptic --frozen_weights /root/DETR/Detection/detection_output/checkpoint.pth --output_dir /root/DETR/Detection/segm_output
+  153  nvidia-smi
+  154  python /root/detr/main.py --masks --epochs 60 --lr_drop 15 --coco_path .  --coco_panoptic_path .  --dataset_file coco_panoptic --frozen_weights /root/DETR/Detection/detection_output/checkpoint.pth --output_dir /root/DETR/Detection/segm_output --batch_size 1
+  155  ls /root/DETR/Detection/val | wc -;
+  156  ls /root/DETR/Detection/val | wc -l
+  157  rm  /root/DETR/Detection/segm_output/panoptic_eval/*
+  158  curl --upload-file /root/DETR/Detection/segm_output/checkpoint.pth https://transfer.sh/checkpoint.pth
+  159  sudo apt update && sudo apt upgrade
+  160  sudo apt install curl
+  161  curl --version
+  162  curl --upload-file /root/DETR/Detection/segm_output/checkpoint.pth https://transfer.sh/checkpoint.pth
+  163  clear
+  164  cd /root/DETR/Detection/segm_output
+  165  curl https://bashupload.com/checkpoint.pth --data-binary @checkpoint.pth
+  166  history > panoptic_command.txt
